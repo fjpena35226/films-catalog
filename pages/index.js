@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { list as listFilms } from 'actions/filmsActions'
 import classNames from 'classnames'
 import {
+  Alert,
   AppBar,
   Button,
   CircularProgress,
@@ -15,10 +16,12 @@ import {
   Menu,
   MenuItem,
   MenuList,
+  Snackbar,
   TextField,
   Toolbar,
 } from '@mui/material'
 
+import useAlert from 'hooks/useAlert'
 import { getComparator, stableSort } from 'utils/sort'
 import SearchIcon from '@mui/icons-material/Search'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
@@ -54,6 +57,8 @@ export default function Home() {
   }
 
   const { isLoading, data: films, error } = listFilms()
+  const { alertOpen, alertMessage, alertColor, showAlert, closeAlert } =
+    useAlert()
 
   const handleItemSelection = (film) => {
     setSelectedItem({
@@ -82,8 +87,29 @@ export default function Home() {
     )
   }
 
+  useEffect(() => {
+    if (error) {
+      showAlert({
+        alertMessage: 'Something went wrong fetching the films',
+        alertColor: 'error',
+      })
+      console.error(error)
+    }
+  }, [error])
+
   return (
     <>
+      {alertOpen && (
+        <Snackbar open={alertOpen} autoHideDuration={6000} onClose={closeAlert}>
+          <Alert
+            onClose={closeAlert}
+            severity={alertColor}
+            sx={{ width: '100%' }}
+          >
+            {alertMessage}
+          </Alert>
+        </Snackbar>
+      )}
       <AppBar position='static'>
         <Toolbar variant='dense' className='toolbar'>
           <Button
