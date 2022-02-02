@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "cy-dev": "concurrently \"npm run dev\" \"NODE_ENV=development cypress open\"",
-    "cy-dev:headless": "NODE_ENV=development cypress run",
+    "cy-dev:headless": "concurrently \"npm run dev\" \"NODE_ENV=development cypress run\"",
     "cy-prod": "NODE_ENV=production cypress open",
     "cy-prod:headless": "NODE_ENV=production cypress run"
   },
