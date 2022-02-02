@@ -95,7 +95,7 @@ export default function Home() {
       })
       console.error(error)
     }
-  }, [error])
+  }, [error, showAlert])
 
   return (
     <>
