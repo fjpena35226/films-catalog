@@ -99,6 +99,9 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Films catalog</title>
+      </Head>
       {alertOpen && (
         <Snackbar open={alertOpen} autoHideDuration={6000} onClose={closeAlert}>
           <Alert
@@ -166,9 +169,6 @@ export default function Home() {
         </Toolbar>
       </AppBar>
       <div className={styles.container}>
-        <Head>
-          <title>Films catalog</title>
-        </Head>
         <main className={styles.main}>
           <Grid
             className={styles.contentWrapper}
@@ -194,8 +194,9 @@ export default function Home() {
                       filteredFilms,
                       getComparator(order, orderBy)
                     )?.map((film, index) => (
-                      <div key={`film-${index}`}>
+                      <div id={`film-${index}`} key={`film-${index}`}>
                         <ListItemButton
+                          id={`film-${index}-btn`}
                           onClick={(evt) => handleItemSelection(film)}
                         >
                           <Grid
@@ -210,7 +211,7 @@ export default function Home() {
                               />
                             </Grid>
                             <Grid item xs={7}>
-                              <ListItemText primary={film.title} />
+                              <ListItemText id={`film-${index}-list-title`} primary={film.title} />
                             </Grid>
                             <Grid item xs={2}>
                               <ListItemText primary={film.release_date} />
@@ -236,7 +237,7 @@ export default function Home() {
             >
               {selectedItem ? (
                 <div className={styles.filmData}>
-                  <h3> {selectedItem.title || ''} </h3>
+                  <h3  id={`film-details-title`} > {selectedItem.title || ''} </h3>
                   <p> {selectedItem.opening_crawl || ''} </p>
                   <p> Directed by: {selectedItem.director || ''} </p>
                 </div>
